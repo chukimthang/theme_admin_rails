@@ -14,3 +14,7 @@ User.create(
   email: 'chukimthang94@gmail.com',
   password: '123456'
 )
+
+30.times do |n|
+  Category.create name: Faker::Name.name
+end

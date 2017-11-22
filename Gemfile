@@ -61,6 +61,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'gettext'
   gem 'get_pomo'
+  gem "faker"
 end
 
 group :production do

@@ -1,0 +1,130 @@
+<% content_for :ribbon do %>
+  <div id="ribbon">
+    <i class="fa fa-lg fa-fw fa-cog"></i>
+    <ol class="breadcrumb">
+      <li><%= t('model.category.model_name') %></li>
+      <li><%= t('common.form.list') %></li>
+    </ol>
+  </div>
+<% end %>
+
+<article class="col-sm-12 col-md-12 col-lg-12">
+  <div class="custom-widget" id="categories-widget">
+
+    <header role="heading">
+      <div class="col-xs-8 title">
+        <h5>
+          <%= t('common.form.resource_list', resource: 'Category') %>
+        </h5>
+      </div>
+
+      <div class="col-xs-4">
+        <span class="btn btn-default btn-add pull-right" data-toggle="modal"
+          data-target="#category-form" id="category-add">
+          <%= t 'common.form.add' %>
+        </span>
+      </div>
+    </header>
+
+    <div class="flash_message">
+      <%= render "shared/flash_message" %>
+    </div>
+
+    <div class="wg-content">
+      <div class="row listing-container">
+        <div class="row" id="categories-table-info">
+          <div class="col-sm-4 pull-left" 
+            style="position: relative; top: 3px;">
+            <%= t('common.form.total_records', amount: @total_records) %>
+          </div>
+
+          <div class="col-sm-4 pull-right">
+            <div class="row" style="position: relative; top: 3px;">
+              <div class="col-sm-8 text-align-right">
+                <%= t('common.form.items_per_page') %>
+              </div>
+              <div class="col-sm-4 pull-right" style="max-width: 100px">
+                <select class="form-control" id="categories-per-page" 
+                  onchange="makeQueryCategory()">
+                  <option>5</option>
+                  <option>10</option>
+                  <option>15</option>
+                  <option>20</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table data -->
+        <table id="categories-table" class="custom-table table table-striped
+          table-bordered" width="100%">
+          <thead>
+          <tr>
+            <th class="col-sm-1"><%= t('common.form.no') %></th>
+            <th class="col-sm-10">
+              <%= t('model.categoy.name') %>
+            </th>
+
+            <th class="col-sm-1">
+              <%= t('common.form.action') %>
+            </th>
+          </tr>
+          </thead>
+
+          <tbody>
+            <% i = 1 %>
+            <% @categories.each do |category| %>
+              <tr>
+                <td class="col-sm-1"><%= i %></td>
+                <td><%= category.name %></td>
+                <td class="col-sm-1">
+                  <i class="fa fa-pencil-square-o custom-action-icon-green
+                    custom-action-icon-edit"
+                    data-toggle="modal" data-target="#category-form"
+                    data-id="<%= category.id %>" 
+                    data-name="<%= category.name %>">
+                  </i>
+
+                  <i class="fa fa-times-circle custom-action-icon-red" 
+                    style="margin-left: 5px;"
+                    data-toggle="modal" data-target="#category-deletion"
+                    data-id="<%= category.id %>"></i>
+                </td>
+              </tr>
+              <% i += 1 %>
+            <% end %>
+          </tbody>
+        </table>
+
+        <div class="text-align-center custom-kaminari">
+          <%= paginate @categories %>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<%= render partial: "deletion" %>
+
+<% content_for :scripts do %>
+  <script type="application/javascript">
+    $(document).ready(function() {
+      <% if params[:per_page] %>
+        $("select#categories-per-page").val(<%= params[:per_page] %>);
+      <% end %>
+    });
+
+    $(document).on("click", ".custom-action-icon-red", function () {
+      var categoryId = $(this).data('id');
+      document.getElementById("btn-confirm-delete").href = "<%= categories_url %>/" + categoryId;
+    });
+
+    function makeQueryCategory() {
+      var perPage = $("select#categories-per-page").val();
+      var redirectUrl = "<%= categories_url %>?per_page=" + perPage;
+
+      window.location.replace(redirectUrl);
+    }
+  </script>
+<% end %>
