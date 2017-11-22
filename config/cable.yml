@@ -1,10 +1,21 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: admin
+  password: "1234567@"
+  host: localhost
+
 development:
+  <<: *default
+  database: TestManagerPro
   adapter: async
 
 test:
+  <<: *default
+  database: TestManagerPro
   adapter: async
 
 production:
-  adapter: redis
-  url: redis://localhost:6379/1
-  channel_prefix: theme_admin_production
+  <<: *default
+  database: TestManagerPro
