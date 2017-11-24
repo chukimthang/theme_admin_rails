@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
   def index
-    per_page = params[:per_page] ? params[:per_page] : 5
+    per_page = params[:per_page] ? params[:per_page] : Category::DEFAULT_PER_PAGE
 
     query = Category.order(created_at: :asc)
     @categories = query.page(params[:page]).per(per_page)

@@ -21,9 +21,5 @@ Rails.application.routes.draw do
   # CK editor
   mount Ckeditor::Engine => "/ckeditor"
 
-  # Category
-  get "categories", to: "categories#index", as: :categories
-  post "categories", to: "categories#create"
-  patch "categories/:id", to: "categories#update"
-  delete "categories/:id", to: "categories#destroy"
+  resources :categories, exept: :show
 end
