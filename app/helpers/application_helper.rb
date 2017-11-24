@@ -130,7 +130,12 @@ module ApplicationHelper
         href: root_path,
         title: _('dashboard'),
         content: "<i class='fa fa-lg fa-fw fa-home'></i> <span class='menu-item-parent'>" + _('Dashboard') + "</span>",
-      }
+      }, 
+      {
+        href: categories_path,
+        title: _('Category'),
+        content: "<i class='fa fa-cog fa-lg'></i> <span class='menu-item-parent'>" + _('Category') + "</span>",
+      }, 
     ]
   end
 end
